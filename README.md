@@ -44,3 +44,6 @@
 1. Clone repository:
 ```bash
 git clone https://github.com/dignelsus/dignelsus.github.io
+
+'''
+The unconfigured fake WP login file is listed.
