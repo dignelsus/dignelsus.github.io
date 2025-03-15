@@ -34,6 +34,11 @@
 - 8-second countdown redirect
 - Hidden escape mechanism
 
+![Honeypot System Demo](fakeWPloginDetected.png)
+
+![Honeypot System Demo](detectedPage.png)
+
+
 ## Installation 💻
 
 1. Clone repository:
